@@ -16,13 +16,18 @@ public class App {
     private static final String DB_USER = config.getString("db.user");
     private static final String DB_PASSWORD = config.getString("db.password");
 
+    private static final String TEST_USER = config.getString("test.user");
+    private static final String TEST_PASSWORD = config.getString("test.password");
+
+
+
     public static void main(String[] args) {
         System.out.println("=== Iniciando Aplicación ===");
 
         try {
             inicializarBaseDeDatos();
 
-            boolean loginExitoso = autenticarUsuario("admin", "1234");
+            boolean loginExitoso = autenticarUsuario(TEST_USER, TEST_PASSWORD);
             System.out.println("Resultado del login: " + (loginExitoso ? "ÉXITO" : "FALLO"));
 
         } catch (Exception e) {
