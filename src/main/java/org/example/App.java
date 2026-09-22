@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.ResourceBundle;
 
 public class App {
 
-    private static final String DB_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:schema.sql'";
-    private static final String DB_USER = "sa";
-    private static final String DB_PASSWORD = "SuperSecretPassword123!";
+    private static final ResourceBundle config = ResourceBundle.getBundle("config");
+
+    private static final String DB_URL = config.getString("db.url");
+    private static final String DB_USER = config.getString("db.user");
+    private static final String DB_PASSWORD = config.getString("db.password");
 
     public static void main(String[] args) {
         System.out.println("=== Iniciando Aplicación ===");
@@ -31,7 +34,7 @@ public class App {
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement()) {
-
+            stmt.execute("RUNSCRIPT FROM 'classpath:schema.sql'");
 
         } catch (SQLException e) {
             System.err.println("Error al inicializar la BD: " + e.getMessage());
@@ -56,6 +59,4 @@ public class App {
             return false;
         }
     }
-
-
 }
