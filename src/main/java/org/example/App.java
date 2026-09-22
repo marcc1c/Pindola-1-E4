@@ -39,18 +39,23 @@ public class App {
     }
 
     public static boolean autenticarUsuario(String usuario, String contrasena) {
-        String query = "SELECT * FROM usuarios WHERE username = '" + usuario + "' AND password = '" + contrasena + "'";
+        String query = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
 
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            return rs.next();
+            pstmt.setString(1, usuario);
+            pstmt.setString(2, contrasena);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next();
+            }
 
         } catch (SQLException e) {
             System.err.println("Error en autenticación: " + e.getMessage());
             return false;
         }
     }
+
+
 }
