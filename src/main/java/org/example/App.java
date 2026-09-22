@@ -28,7 +28,7 @@ public class App {
     }
 
     public static void inicializarBaseDeDatos() {
-        String sqlCrearTabla = "CREATE TABLE usuarios (id INT PRIMARY KEY, username VARCHAR(50) password VARCHAR(50))";
+        String sqlCrearTabla = "CREATE TABLE usuarios (id INT PRIMARY KEY, username VARCHAR(50), password VARCHAR(50))";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement()) {
