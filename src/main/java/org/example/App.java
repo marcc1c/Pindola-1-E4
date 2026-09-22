@@ -47,21 +47,28 @@ public class App {
     }
 
     public static boolean autenticarUsuario(String usuario, String contrasena) {
-        String query = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
+        boolean autenticado = false;
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        if (usuario != null && contrasena != null &&
+                !usuario.isBlank() && !contrasena.isBlank()) {
 
-            pstmt.setString(1, usuario);
-            pstmt.setString(2, contrasena);
+            String query = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
 
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+                 PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+                pstmt.setString(1, usuario);
+                pstmt.setString(2, contrasena);
+
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    autenticado = rs.next();
+                }
+
+            } catch (SQLException e) {
+                System.err.println("Error en autenticación: " + e.getMessage());
             }
-
-        } catch (SQLException e) {
-            System.err.println("Error en autenticación: " + e.getMessage());
-            return false;
         }
+
+        return autenticado;
     }
 }
