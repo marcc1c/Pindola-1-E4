@@ -33,9 +33,9 @@ public class App {
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement()) {
 
-            stmt.execute(sqlCrearTabla);
-            stmt.execute("INSERT INTO usuarios VALUES (1, 'admin', '1234')");
-            System.out.println("Base de datos H2 inicializada correctamente.");
+            //stmt.execute(sqlCrearTabla);
+            //stmt.execute("INSERT INTO usuarios VALUES (1, 'admin', '1234')");
+            //System.out.println("Base de datos H2 inicializada correctamente.");
 
         } catch (SQLException e) {
             System.err.println("Error al inicializar la BD: " + e.getMessage());
